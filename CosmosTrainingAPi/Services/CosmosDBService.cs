@@ -50,25 +50,28 @@ namespace PracticeMVCApplication.Services
 
         }
 
-        async Task<ActionResult<List<Models.User>>> ICosmosDBService.GetAllusers()
+        async Task<List<Models.User>> ICosmosDBService.GetAllusers()
         {
             Container container = await getContainer("user");
+            var allusers = new List<Models.User>();
 
-            List<Models.User> allusers = new List<Models.User>();
-            using (FeedIterator<Models.User> resultSet = container.GetItemQueryIterator<Models.User>(
-                queryDefinition: null,
-                requestOptions: new QueryRequestOptions()
-                {
-                    PartitionKey = new PartitionKey("id")
-                }))
+            var query = new QueryDefinition(
+                query: "SELECT * FROM users"
+            );
+
+            using FeedIterator<Models.User> feed = container.GetItemQueryIterator<Models.User>(
+                queryDefinition: query
+            );
+
+            while (feed.HasMoreResults)
             {
-                while (resultSet.HasMoreResults)
+                FeedResponse<Models.User> response = await feed.ReadNextAsync();
+                foreach (Models.User item in response)
                 {
-                    FeedResponse<Models.User> response = await resultSet.ReadNextAsync();
-                    allusers.AddRange(response);
+                    allusers.Add(item);
                 }
             }
-            return allusers;
+            return (allusers);
         }
     }
 }
