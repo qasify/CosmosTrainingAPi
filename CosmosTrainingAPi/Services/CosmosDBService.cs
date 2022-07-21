@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.Azure.Cosmos;
+using PracticeMVCApplication.Models;
 using System.Diagnostics;
 
 namespace PracticeMVCApplication.Services
@@ -69,6 +70,26 @@ namespace PracticeMVCApplication.Services
                 }
             }
             return allusers;
+        }
+
+        public async Task<string> createPost(Post post)
+        {
+            string resp;
+            try
+            {
+                Container container = await getContainer("post");
+                var x = await container.CreateItemAsync<Models.Post>(
+                   item: post,
+                   partitionKey: new PartitionKey(post.Id)
+               );
+                resp = x.StatusCode.ToString();
+            }
+            catch (Exception e)
+            {
+                resp = e.Message;
+            }
+
+            return resp;
         }
     }
 }

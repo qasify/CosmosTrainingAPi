@@ -7,5 +7,6 @@ namespace PracticeMVCApplication.Services
     {
         Task<string> CreateNewUser(User user);
         Task<ActionResult<List<User>>> GetAllusers();
+        Task<ActionResult<string>> createPost(Post post);
     }
 }
