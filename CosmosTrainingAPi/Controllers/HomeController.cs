@@ -1,5 +1,5 @@
-﻿using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Mvc;
+using PracticeMVCApplication.Models;
 using PracticeMVCApplication.Services;
 
 namespace CosmosTrainingAPi.Controllers
@@ -15,24 +15,34 @@ namespace CosmosTrainingAPi.Controllers
             _cosmosDBService = cosmosDBService;
         }
 
-/*        [HttpGet("ShowAvailableNurces")]
-        public async Task<ActionResult<List<Nurse>>> ShowAvailableNurces()
+        [HttpPost("CreateNewUser")]
+        public async Task<ActionResult<string>> AddNewNurse(User user)
         {
-            return Ok(Supplier1.getAvailableNurses());
+            string responce = await _cosmosDBService.CreateNewUser(user);
+            return Ok(responce);
         }
 
-        //[HttpPost("GetNurces")]
-        //public async Task<ActionResult<List<Nurse>>> GetNurces(NursesDemand demand)
-        //{
-        //    return Ok(Supplier1.getNurses(demand));
-        //}
-
-        [HttpPost("AddNewNurse")]
-        public async Task<ActionResult<List<Nurse>>> AddNewNurse(Nurse nurse)
+        [HttpGet("GetAllusers")]
+        public async Task<ActionResult<List<User>>> GetAllusers()
         {
-            Supplier1.addNurse(nurse);
-            return Ok(Supplier1.getAvailableNurses());
-        }*/
+            var responce = await _cosmosDBService.GetAllusers();
+            return Ok(responce);
+        }
+
+        /*        
+
+                //[HttpPost("GetNurces")]
+                //public async Task<ActionResult<List<Nurse>>> GetNurces(NursesDemand demand)
+                //{
+                //    return Ok(Supplier1.getNurses(demand));
+                //}
+
+                [HttpPost("AddNewNurse")]
+                public async Task<ActionResult<List<Nurse>>> AddNewNurse(Nurse nurse)
+                {
+                    Supplier1.addNurse(nurse);
+                    return Ok(Supplier1.getAvailableNurses());
+                }*/
 
 
     }

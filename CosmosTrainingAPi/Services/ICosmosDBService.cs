@@ -1,9 +1,11 @@
-﻿using PracticeMVCApplication.Models;
+﻿using Microsoft.AspNetCore.Mvc;
+using PracticeMVCApplication.Models;
 
 namespace PracticeMVCApplication.Services
 {
     public interface ICosmosDBService
     {
-        Task UpsertItemAsync(User user);
+        Task<string> CreateNewUser(User user);
+        Task<ActionResult<List<User>>> GetAllusers();
     }
 }
