@@ -9,6 +9,19 @@ using CosmosClient client = new(
 
 var builder = WebApplication.CreateBuilder(args);
 
+
+// adding cors
+builder.Services.AddCors(options =>
+{
+    options.AddPolicy(name: "reactAppOrigin",
+                      policy =>
+                      {
+                          policy.WithOrigins("http://localhost:3000/", "https://localhost:3000/").AllowAnyMethod().AllowAnyHeader();
+                      });
+});
+
+
+
 // Add services to the container.
 
 builder.Services.AddControllers();
@@ -26,6 +39,8 @@ if (app.Environment.IsDevelopment())
     app.UseSwagger();
     app.UseSwaggerUI();
 }
+
+app.UseCors("reactAppOrigin");
 
 app.UseHttpsRedirection();
 
