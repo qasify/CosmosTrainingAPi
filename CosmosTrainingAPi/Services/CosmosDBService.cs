@@ -23,7 +23,7 @@ namespace PracticeMVCApplication.Services
         {
             Container container = await _database.CreateContainerIfNotExistsAsync(
                 id: name,
-                partitionKeyPath: "/id", // not sure what this is
+                partitionKeyPath: "/gender", // not sure what this is
                 throughput: 400
             );
             return container;
@@ -38,7 +38,7 @@ namespace PracticeMVCApplication.Services
                 Container container = await getContainer("user");
                 var x = await container.CreateItemAsync<Models.User>(
                    item: user,
-                   partitionKey: new PartitionKey(user.Username)
+                   partitionKey: new PartitionKey(user.Gender)
                );
                 responce = x.StatusCode.ToString();
             }
