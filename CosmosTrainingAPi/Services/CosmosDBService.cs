@@ -1,7 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
-using Microsoft.Azure.Cosmos;
+﻿using Microsoft.Azure.Cosmos;
 using PracticeMVCApplication.Models;
-using System.Diagnostics;
 
 namespace PracticeMVCApplication.Services
 {
@@ -10,7 +8,7 @@ namespace PracticeMVCApplication.Services
         private Database _database;
         public CosmosDBService(CosmosClient client)
         {
-            initDatabase(client,"testApp");
+            initDatabase(client, "testApp");
         }
 
         private async void initDatabase(CosmosClient client, string name)

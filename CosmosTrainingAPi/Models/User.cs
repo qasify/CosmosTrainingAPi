@@ -2,7 +2,8 @@
 
 namespace PracticeMVCApplication.Models
 {
-    public class User {
+    public class User
+    {
         [JsonProperty("id")]
         public string Username { get; set; }
         public string Password { get; set; }
