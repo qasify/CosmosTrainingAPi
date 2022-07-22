@@ -24,14 +24,14 @@ namespace PracticeMVCApplication.Services
         {
             Container container = await _database.CreateContainerIfNotExistsAsync(
                 id: name,
-                partitionKeyPath: "/gender", // not sure what this is
+                partitionKeyPath: "/id", // not sure what this is
                 throughput: 400
             );
             return container;
         }
 
 
-        async Task<string> ICosmosDBService.CreateNewUser(Models.User user)
+        public async Task<string> CreateNewUser(Models.User user)
         {
             string responce;
             try
@@ -39,7 +39,7 @@ namespace PracticeMVCApplication.Services
                 Container container = await getContainer("user");
                 var x = await container.CreateItemAsync<Models.User>(
                    item: user,
-                   partitionKey: new PartitionKey(user.Gender)
+                   partitionKey: new PartitionKey(user.Username)
                );
                 responce = x.StatusCode.ToString();
             }
@@ -51,7 +51,7 @@ namespace PracticeMVCApplication.Services
 
         }
 
-        async Task<List<Models.User>> ICosmosDBService.GetAllusers()
+        public async Task<List<Models.User>> GetAllusers()
         {
             Container container = await getContainer("user");
             var allusers = new List<Models.User>();
@@ -94,5 +94,28 @@ namespace PracticeMVCApplication.Services
 
             return resp;
         }
+
+        public async Task<string> AuthenciateUser(Models.UserCredentials user)
+        {
+            string responce;
+            try
+            {
+                Container container = await getContainer("user");
+                Models.User foundUser = await container.ReadItemAsync<Models.User>(
+                    id: user.Username,
+                    partitionKey: new PartitionKey(user.Username)
+                );
+                if (user.Password == foundUser.Password)
+                    responce = "Success";
+                else
+                    responce = "Password incorrect";
+            }
+            catch (Exception e)
+            {
+                responce = "User don't exist";
+            }
+            return responce;
+        }
+
     }
 }
