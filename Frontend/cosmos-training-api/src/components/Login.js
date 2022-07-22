@@ -2,11 +2,10 @@ import axios from 'axios'
 import React from 'react'
 import { useState, useNavigate } from 'react'
 
-export default function SignUp() {
+export default function Login() {
     const navigate = useNavigate();
     const [username, setUsername] = useState("")
     const [password, setPassword] = useState("")
-    const [gender, setGender] = useState("")
 
     const postData = (e) => {
         e.preventDefault();
@@ -38,27 +37,13 @@ export default function SignUp() {
                         <input class="input is-success" type="password" placeholder="Password" value={password} onChange={(e) => { setPassword(e.target.value) }} />
                     </div>
                 </div>
-                <div class="field">
-                    <label class="label">Gender</label>
-                    <div class="control">
-                        <div class="select">
-                            <select onChange={(e)=>{setGender(e.target.value)}}>
-                                <option>N/A</option>
-                                <option>Male</option>
-                                <option>Female</option>
-                            </select>
-                        </div>
-                    </div>
-                </div>
+                
                 <div class="field is-grouped mt-4">
                     <div class="control">
-                        <button class="button is-link" onClick={postData}>Submit</button>
+                        <button class="button is-link" onClick={postData}>Login</button>
                     </div>
                     <div class="control">
-                        <button class="button is-link is-light" onClick={() => {
-                            setUsername("");
-                            setPassword("");
-                        }}>Cancel</button>
+                        <button class="button is-link is-light" onClick={() => {navigate("/SignUp")}}>Sign Up</button>
                     </div>
                 </div>
             </form>

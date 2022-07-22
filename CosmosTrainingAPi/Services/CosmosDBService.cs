@@ -31,7 +31,7 @@ namespace PracticeMVCApplication.Services
         }
 
 
-        async Task<string> ICosmosDBService.CreateNewUser(Models.User user)
+        public async Task<string> CreateNewUser(Models.User user)
         {
             string responce;
             try
@@ -51,7 +51,7 @@ namespace PracticeMVCApplication.Services
 
         }
 
-        async Task<List<Models.User>> ICosmosDBService.GetAllusers()
+        public async Task<List<Models.User>> GetAllusers()
         {
             Container container = await getContainer("user");
             var allusers = new List<Models.User>();
