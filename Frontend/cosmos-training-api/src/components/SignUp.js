@@ -1,6 +1,7 @@
 import axios from 'axios'
 import React from 'react'
-import { useState, useNavigate } from 'react'
+import { useState} from 'react'
+import { useNavigate } from "react-router-dom";
 
 export default function SignUp() {
     const navigate = useNavigate();
@@ -24,7 +25,7 @@ export default function SignUp() {
     return (
         <div>
             <h1 className='title mb-5'>Cosmos Database Training API</h1>
-            <h1 className='subtitle mb-5'>Login</h1>
+            <h1 className='subtitle mb-5'>Sign Up</h1>
             <form className='is-flex is-flex-direction-column'>
                 <div class="field">
                     <label class="label">Username</label>
@@ -56,9 +57,8 @@ export default function SignUp() {
                     </div>
                     <div class="control">
                         <button class="button is-link is-light" onClick={() => {
-                            setUsername("");
-                            setPassword("");
-                        }}>Cancel</button>
+                            navigate("/")
+                        }}>Login</button>
                     </div>
                 </div>
             </form>

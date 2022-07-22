@@ -1,6 +1,7 @@
 import axios from 'axios'
 import React from 'react'
-import { useState, useNavigate } from 'react'
+import { useState } from 'react'
+import { useNavigate } from "react-router-dom";
 
 export default function Login() {
     const navigate = useNavigate();
@@ -9,13 +10,15 @@ export default function Login() {
 
     const postData = (e) => {
         e.preventDefault();
-        axios.post("https://localhost:7279/api/Home/CreateNewUser", {
+        axios.post("https://localhost:7279/api/Home/AuthenciateUser", {
             "username":username,
-            "password":password,
-            "gender":gender
+            "password":password
         }).then(r => {
-            console.log(r);
-            navigate("/")
+            if (r.data === "Success"){
+                localStorage.setItem("session", "true");
+                localStorage.setItem("user", username);
+                navigate("/Home");
+            }
         })
         
     }
