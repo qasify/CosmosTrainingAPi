@@ -6,11 +6,11 @@ namespace CosmosTrainingAPi.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class HomeController : ControllerBase
+    public class UserController : ControllerBase
     {
         private ICosmosDBService _cosmosDBService;
 
-        public HomeController(ICosmosDBService cosmosDBService)
+        public UserController(ICosmosDBService cosmosDBService)
         {
             _cosmosDBService = cosmosDBService;
         }
