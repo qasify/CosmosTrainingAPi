@@ -81,6 +81,7 @@ namespace PracticeMVCApplication.Services
             try
             {
                 Container container = await getContainer("post");
+                post.Id = Guid.NewGuid().ToString();
                 var x = await container.CreateItemAsync<Models.Post>(
                    item: post,
                    partitionKey: new PartitionKey(post.Id)
@@ -93,6 +94,30 @@ namespace PracticeMVCApplication.Services
             }
 
             return resp;
+        }
+
+        public async Task<List<Models.Post>> GetAllposts()
+        {
+            Container container = await getContainer("post");
+            var allPosts = new List<Models.Post>();
+
+            var query = new QueryDefinition(
+                query: "SELECT * FROM post"
+            );
+
+            using FeedIterator<Models.Post> feed = container.GetItemQueryIterator<Models.Post>(
+                queryDefinition: query
+            );
+
+            while (feed.HasMoreResults)
+            {
+                FeedResponse<Models.Post> response = await feed.ReadNextAsync();
+                foreach (Models.Post item in response)
+                {
+                    allPosts.Add(item);
+                }
+            }
+            return (allPosts);
         }
 
         public async Task<string> AuthenciateUser(Models.UserCredentials user)

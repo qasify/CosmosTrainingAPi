@@ -8,6 +8,7 @@ namespace PracticeMVCApplication.Services
         public Task<string> CreateNewUser(Models.User user);
         public Task<List<Models.User>> GetAllusers();
         public Task<string> createPost(Post post);
+        public Task<List<Models.Post>> GetAllposts();
         public Task<string> AuthenciateUser(UserCredentials user);
     }
 }
