@@ -6,6 +6,7 @@ namespace PracticeMVCApplication.Services
     public interface ICosmosDBService
     {
         Task<string> CreateNewUser(User user);
-        Task<List<User>> GetAllusers();
+        Task<ActionResult<List<User>>> GetAllusers();
+        Task<ActionResult<string>> createPost(Post post);
     }
 }
