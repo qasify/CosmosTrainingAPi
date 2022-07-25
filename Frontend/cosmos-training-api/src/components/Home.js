@@ -11,7 +11,7 @@ const NavBar = () => {
                 <div class="navbar-end">
                     <div class="navbar-item">
                         <div class="buttons">
-                            <a class="button is-primary">
+                            <a class="button is-primary" onClick={()=>{navigate("/Profile")}}>
                                 <strong>Profile</strong>
                             </a>
                             <a class="button is-light" onClick={()=>{
@@ -35,7 +35,7 @@ export default function Home() {
     const [refresh, setRefresh] = useState(0)
     
     const postPost = () => {
-        axios.post("https://localhost:7279/api/Post/addPost", {
+        axios.post("https://localhost:7279/api/Post", {
             id: "",
             text: myPost,
             username: localStorage.getItem("user")

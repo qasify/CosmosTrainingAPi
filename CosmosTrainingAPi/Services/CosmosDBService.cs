@@ -140,5 +140,25 @@ namespace PracticeMVCApplication.Services
             return responce;
         }
 
+        public async Task<string> DeletePost(DeletePost post)
+        {
+            string resp;
+            try
+            {
+                Container container = await getContainer("post");
+
+                var x = await container.DeleteItemAsync<Models.Post>(
+                   id: post.Id,
+                   partitionKey: new PartitionKey(post.Username)
+               );
+                resp = x.StatusCode.ToString();
+            }
+            catch (Exception e)
+            {
+                resp = e.Message;
+            }
+
+            return resp;
+        }
     }
 }

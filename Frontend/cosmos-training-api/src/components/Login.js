@@ -10,7 +10,7 @@ export default function Login() {
 
     const postData = (e) => {
         e.preventDefault();
-        axios.post("https://localhost:7279/api/Home/AuthenciateUser", {
+        axios.post("https://localhost:7279/api/Authentication", {
             "username":username,
             "password":password
         }).then(r => {

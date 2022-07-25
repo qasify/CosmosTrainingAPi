@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using PracticeMVCApplication.Models;
-using PracticeMVCApplication.Services;
+using CosmosTrainingAPi.Models;
+using CosmosTrainingAPi.Services;
+using Microsoft.AspNetCore.Authorization;
 
 namespace CosmosTrainingAPi.Controllers
 {
