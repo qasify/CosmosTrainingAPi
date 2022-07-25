@@ -6,11 +6,11 @@ namespace CosmosTrainingAPi.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class HomeController : ControllerBase
+    public class UserController : ControllerBase
     {
         private ICosmosDBService _cosmosDBService;
 
-        public HomeController(ICosmosDBService cosmosDBService)
+        public UserController(ICosmosDBService cosmosDBService)
         {
             _cosmosDBService = cosmosDBService;
         }
@@ -29,20 +29,12 @@ namespace CosmosTrainingAPi.Controllers
             return Ok(responce);
         }
 
-        /*        
-
-                //[HttpPost("GetNurces")]
-                //public async Task<ActionResult<List<Nurse>>> GetNurces(NursesDemand demand)
-                //{
-                //    return Ok(Supplier1.getNurses(demand));
-                //}
-
-                [HttpPost("AddNewNurse")]
-                public async Task<ActionResult<List<Nurse>>> AddNewNurse(Nurse nurse)
-                {
-                    Supplier1.addNurse(nurse);
-                    return Ok(Supplier1.getAvailableNurses());
-                }*/
+        [HttpPost("AuthenciateUser")]
+        public async Task<ActionResult<string>> AuthenciateUser(UserCredentials user)
+        {
+            var responce = await _cosmosDBService.AuthenciateUser(user);
+            return Ok(responce);
+        }
 
 
     }
