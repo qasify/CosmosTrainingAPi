@@ -1,4 +1,4 @@
-﻿using CosmosTrainingAPi.Models;
+using CosmosTrainingAPi.Models;
 using Microsoft.Azure.Cosmos;
 using System.Security.Claims;
 using System.Security.Cryptography;
