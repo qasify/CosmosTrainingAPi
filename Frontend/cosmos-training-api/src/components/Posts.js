@@ -4,7 +4,9 @@ import axios from 'axios'
 export default function Posts(props) {
     const [posts, setPosts] = useState([]);
     useEffect(()=>{
-        axios.get("https://localhost:7279/api/Post").then(r => {
+        axios.get("https://localhost:7279/api/Post/GetAllposts", {headers: {
+          Authorization: `Bearer ${localStorage.getItem("token")}`
+        }}).then(r => {
             console.log(r);
             setPosts(r.data);
         })

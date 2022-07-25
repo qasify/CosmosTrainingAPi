@@ -10,13 +10,14 @@ export default function Login() {
 
     const postData = (e) => {
         e.preventDefault();
-        axios.post("https://localhost:7279/api/Authentication", {
+        axios.post("https://localhost:7279/api/Authentication/AuthenciateUser", {
             "username":username,
             "password":password
         }).then(r => {
-            if (r.data === "Success"){
+            if (r.data !== ""){
                 localStorage.setItem("session", "true");
                 localStorage.setItem("user", username);
+                localStorage.setItem("token", r.data)
                 navigate("/Home");
             }
         })

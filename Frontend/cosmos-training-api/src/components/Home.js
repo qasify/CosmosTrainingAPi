@@ -35,7 +35,7 @@ export default function Home() {
     const [refresh, setRefresh] = useState(0)
     
     const postPost = () => {
-        axios.post("https://localhost:7279/api/Post", {
+        axios.post("https://localhost:7279/api/Post/addPost", {
             id: "",
             text: myPost,
             username: localStorage.getItem("user")

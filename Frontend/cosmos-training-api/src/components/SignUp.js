@@ -11,7 +11,7 @@ export default function SignUp() {
 
     const postData = (e) => {
         e.preventDefault();
-        axios.post("https://localhost:7279/api/User", {
+        axios.post("https://localhost:7279/api/Authentication/CreateNewUser", {
             "username":username,
             "password":password,
             "gender":gender

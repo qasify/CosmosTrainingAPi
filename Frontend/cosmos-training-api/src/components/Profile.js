@@ -13,7 +13,7 @@ export default function Profile() {
     
     const updatePassword = (e) => {
         e.preventDefault();
-        axios.patch("https://localhost:7279/api/User", {
+        axios.patch("https://localhost:7279/api/User/UpdateUserPassword", {
             username: localStorage.getItem("user"),
             oldPassword: oldPassword,
             newPassword: newPassword
