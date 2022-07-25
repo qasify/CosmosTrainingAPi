@@ -1,5 +1,5 @@
 using Microsoft.Azure.Cosmos;
-using PracticeMVCApplication.Services;
+using CosmosTrainingAPi.Services;
 
 // New instance of CosmosClient class
 using CosmosClient client = new(

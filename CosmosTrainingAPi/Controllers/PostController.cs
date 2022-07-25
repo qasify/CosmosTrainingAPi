@@ -1,6 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using PracticeMVCApplication.Models;
-using PracticeMVCApplication.Services;
+using CosmosTrainingAPi.Models;
+using CosmosTrainingAPi.Services;
 
 namespace CosmosTrainingAPi.Controllers
 {
@@ -15,17 +15,24 @@ namespace CosmosTrainingAPi.Controllers
             _cosmosDBService = cosmosDBService;
         }
 
-        [HttpPost("addPost")]
+        [HttpPost]
         public async Task<ActionResult<string>> addPost(Post post)
         {
             string responce = await _cosmosDBService.createPost(post);
             return Ok(responce);
         }
 
-        [HttpGet("GetAllposts")]
+        [HttpGet]
         public async Task<ActionResult<List<User>>> GetAllposts()
         {
             var responce = await _cosmosDBService.GetAllposts();
+            return Ok(responce);
+        }
+
+        [HttpDelete]
+        public async Task<ActionResult<List<User>>> DeletePost(DeletePost post)
+        {
+            var responce = await _cosmosDBService.DeletePost(post);
             return Ok(responce);
         }
     }

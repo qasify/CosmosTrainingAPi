@@ -1,7 +1,8 @@
-﻿using Microsoft.Azure.Cosmos;
-using PracticeMVCApplication.Models;
+﻿using CosmosTrainingAPi.Models;
+using Microsoft.Azure.Cosmos;
 
-namespace PracticeMVCApplication.Services
+namespace CosmosTrainingAPi.Services
+
 {
     public class CosmosDBService : ICosmosDBService
     {
@@ -20,9 +21,14 @@ namespace PracticeMVCApplication.Services
         }
         private async Task<Container> getContainer(string name)
         {
+            string path;
+            if (name == "post")
+                path = "/username";
+            else
+                path = "/id";
             Container container = await _database.CreateContainerIfNotExistsAsync(
                 id: name,
-                partitionKeyPath: "/id", // not sure what this is
+                partitionKeyPath: path, // not sure what this is
                 throughput: 400
             );
             return container;
@@ -82,7 +88,7 @@ namespace PracticeMVCApplication.Services
                 post.Id = Guid.NewGuid().ToString();
                 var x = await container.CreateItemAsync<Models.Post>(
                    item: post,
-                   partitionKey: new PartitionKey(post.Id)
+                   partitionKey: new PartitionKey(post.Username)
                );
                 resp = x.StatusCode.ToString();
             }
@@ -124,6 +130,7 @@ namespace PracticeMVCApplication.Services
             try
             {
                 Container container = await getContainer("user");
+
                 Models.User foundUser = await container.ReadItemAsync<Models.User>(
                     id: user.Username,
                     partitionKey: new PartitionKey(user.Username)
@@ -138,6 +145,57 @@ namespace PracticeMVCApplication.Services
                 responce = "User don't exist";
             }
             return responce;
+        }
+
+        public async Task<string> UpdateUserPassword(Models.UpdatePassword user)
+        {
+            string responce;
+            try
+            {
+                Container container = await getContainer("user");
+                PatchItemRequestOptions options = new()
+                {
+                    FilterPredicate = $"FROM users u WHERE u.assword = \"{user.OldPassword}\""
+                };
+                List<PatchOperation> operations = new()
+                {
+                    PatchOperation.Replace("/Password", user.NewPassword)
+                };
+                var x = await container.PatchItemAsync<Models.User>(
+                    id: user.Username,
+                    partitionKey: new PartitionKey(user.Username),
+                    patchOperations: operations,
+                    requestOptions: options
+                );
+
+                responce = x.StatusCode.ToString();
+            }
+            catch (Exception e)
+            {
+                responce = "UserName or OldPassword didnt match.";
+            }
+            return responce;
+        }
+
+        public async Task<string> DeletePost(DeletePost post)
+        {
+            string resp;
+            try
+            {
+                Container container = await getContainer("post");
+
+                var x = await container.DeleteItemAsync<Models.Post>(
+                   id: post.Id,
+                   partitionKey: new PartitionKey(post.Username)
+               );
+                resp = x.StatusCode.ToString();
+            }
+            catch (Exception e)
+            {
+                resp = e.Message;
+            }
+
+            return resp;
         }
 
     }

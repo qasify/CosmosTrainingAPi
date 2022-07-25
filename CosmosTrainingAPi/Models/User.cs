@@ -1,6 +1,6 @@
 ﻿using Newtonsoft.Json;
 
-namespace PracticeMVCApplication.Models
+namespace CosmosTrainingAPi.Models
 {
     public class User
     {
