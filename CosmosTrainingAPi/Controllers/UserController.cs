@@ -1,10 +1,10 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using PracticeMVCApplication.Models;
-using PracticeMVCApplication.Services;
+using CosmosTrainingAPi.Models;
+using CosmosTrainingAPi.Services;
 
 namespace CosmosTrainingAPi.Controllers
 {
-    [Route("api/[controller]")]
+    [Route("api/[controller]/[action]")]
     [ApiController]
     public class UserController : ControllerBase
     {
@@ -15,27 +15,26 @@ namespace CosmosTrainingAPi.Controllers
             _cosmosDBService = cosmosDBService;
         }
 
-        [HttpPost("CreateNewUser")]
-        public async Task<ActionResult<string>> AddNewNurse(User user)
+        [HttpPost]
+        public async Task<ActionResult<string>> CreateNewUser(UserDTO user)
         {
             string responce = await _cosmosDBService.CreateNewUser(user);
             return Ok(responce);
         }
 
-        [HttpGet("GetAllusers")]
-        public async Task<ActionResult<List<User>>> GetAllusers()
+        [HttpGet]
+        public async Task<ActionResult<List<UserDTO>>> GetAllusers()
         {
             var responce = await _cosmosDBService.GetAllusers();
             return Ok(responce);
         }
 
-        [HttpPost("AuthenciateUser")]
-        public async Task<ActionResult<string>> AuthenciateUser(UserCredentials user)
+        [HttpPatch]
+        public async Task<ActionResult<string>> UpdateUserPassword(UpdatePassword user)
         {
-            var responce = await _cosmosDBService.AuthenciateUser(user);
+            var responce = await _cosmosDBService.UpdateUserPassword(user);
             return Ok(responce);
         }
-
 
     }
 }

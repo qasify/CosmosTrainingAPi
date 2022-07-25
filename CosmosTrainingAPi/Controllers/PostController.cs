@@ -5,7 +5,7 @@ using Microsoft.AspNetCore.Authorization;
 
 namespace CosmosTrainingAPi.Controllers
 {
-    [Route("api/[controller]")]
+    [Route("api/[controller]/[action]")]
     [ApiController]
     public class PostController : ControllerBase
     {
@@ -16,17 +16,24 @@ namespace CosmosTrainingAPi.Controllers
             _cosmosDBService = cosmosDBService;
         }
 
-        [HttpPost("addPost")]
+        [HttpPost]
         public async Task<ActionResult<string>> addPost(Post post)
         {
             string responce = await _cosmosDBService.createPost(post);
             return Ok(responce);
         }
 
-        [HttpGet("GetAllposts")]
-        public async Task<ActionResult<List<User>>> GetAllposts()
+        [HttpGet, Authorize]
+        public async Task<ActionResult<List<UserDTO>>> GetAllposts()
         {
             var responce = await _cosmosDBService.GetAllposts();
+            return Ok(responce);
+        }
+
+        [HttpDelete]
+        public async Task<ActionResult<List<UserDTO>>> DeletePost(DeletePost post)
+        {
+            var responce = await _cosmosDBService.DeletePost(post);
             return Ok(responce);
         }
     }
