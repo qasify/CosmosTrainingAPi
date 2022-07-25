@@ -1,10 +1,11 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using CosmosTrainingAPi.Models;
 using CosmosTrainingAPi.Services;
+using Microsoft.AspNetCore.Authorization;
 
 namespace CosmosTrainingAPi.Controllers
 {
-    [Route("api/[controller]")]
+    [Route("api/[controller]/[action]")]
     [ApiController]
     public class PostController : ControllerBase
     {
@@ -22,15 +23,15 @@ namespace CosmosTrainingAPi.Controllers
             return Ok(responce);
         }
 
-        [HttpGet]
-        public async Task<ActionResult<List<User>>> GetAllposts()
+        [HttpGet, Authorize]
+        public async Task<ActionResult<List<UserDTO>>> GetAllposts()
         {
             var responce = await _cosmosDBService.GetAllposts();
             return Ok(responce);
         }
 
         [HttpDelete]
-        public async Task<ActionResult<List<User>>> DeletePost(DeletePost post)
+        public async Task<ActionResult<List<UserDTO>>> DeletePost(DeletePost post)
         {
             var responce = await _cosmosDBService.DeletePost(post);
             return Ok(responce);

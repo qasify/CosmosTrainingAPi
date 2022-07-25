@@ -4,7 +4,7 @@ using CosmosTrainingAPi.Services;
 
 namespace CosmosTrainingAPi.Controllers
 {
-    [Route("api/[controller]")]
+    [Route("api/[controller]/[action]")]
     [ApiController]
     public class UserController : ControllerBase
     {
@@ -16,14 +16,14 @@ namespace CosmosTrainingAPi.Controllers
         }
 
         [HttpPost]
-        public async Task<ActionResult<string>> CreateNewUser(User user)
+        public async Task<ActionResult<string>> CreateNewUser(UserDTO user)
         {
             string responce = await _cosmosDBService.CreateNewUser(user);
             return Ok(responce);
         }
 
         [HttpGet]
-        public async Task<ActionResult<List<User>>> GetAllusers()
+        public async Task<ActionResult<List<UserDTO>>> GetAllusers()
         {
             var responce = await _cosmosDBService.GetAllusers();
             return Ok(responce);
