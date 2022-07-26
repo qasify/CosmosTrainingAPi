@@ -17,6 +17,7 @@ const NavBar = () => {
                             <a class="button is-light" onClick={()=>{
                                 localStorage.removeItem("session");
                                 localStorage.removeItem("user");
+                                localStorage.removeItem("token");
                                 navigate("/")
                             }}>
                                 Log Out
@@ -63,7 +64,7 @@ export default function Home() {
                 <button className='button' onClick={postPost}>Post</button>
             </div>
             <div>
-                <Posts refresh={refresh}/>
+                <Posts refresh={refresh} />
             </div>
             <div style={{display: "None"}}>
                 {refresh}

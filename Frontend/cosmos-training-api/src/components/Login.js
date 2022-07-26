@@ -7,6 +7,7 @@ export default function Login() {
     const navigate = useNavigate();
     const [username, setUsername] = useState("")
     const [password, setPassword] = useState("")
+    const [status, setStatus] = useState("")
 
     const postData = (e) => {
         e.preventDefault();
@@ -14,12 +15,18 @@ export default function Login() {
             "username":username,
             "password":password
         }).then(r => {
-            if (r.data !== ""){
+            console.log(r.data)
+            if (r.data !== "User don't exist" && r.data !== "Password incorrect"){
                 localStorage.setItem("session", "true");
                 localStorage.setItem("user", username);
-                localStorage.setItem("token", r.data)
+                localStorage.setItem("token", r.token);
                 navigate("/Home");
             }
+            else{
+                setStatus(r.data)
+            }
+        }).catch(err => {
+            console.log(err)
         })
         
     }
@@ -41,7 +48,7 @@ export default function Login() {
                         <input class="input is-success" type="password" placeholder="Password" value={password} onChange={(e) => { setPassword(e.target.value) }} />
                     </div>
                 </div>
-                
+                <span>{status}</span>
                 <div class="field is-grouped mt-4">
                     <div class="control">
                         <button class="button is-link" onClick={postData}>Login</button>
