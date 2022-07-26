@@ -1,6 +1,8 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using CosmosTrainingAPi.Models;
 using CosmosTrainingAPi.Services;
+using Microsoft.AspNetCore.Authorization;
+using System.Security.Claims;
 
 namespace CosmosTrainingAPi.Controllers
 {
@@ -8,11 +10,13 @@ namespace CosmosTrainingAPi.Controllers
     [ApiController]
     public class AuthenticationController : ControllerBase
     {
-        private ICosmosDBService _cosmosDBService;
+        private readonly ICosmosDBService _cosmosDBService;
+        private readonly IUserService _userService;
 
-        public AuthenticationController(ICosmosDBService cosmosDBService)
+        public AuthenticationController(ICosmosDBService cosmosDBService, IUserService userService)
         {
             _cosmosDBService = cosmosDBService;
+            _userService = userService;
         }
 
         [HttpPost]
@@ -29,5 +33,19 @@ namespace CosmosTrainingAPi.Controllers
             return Ok(responce);
         }
 
+
+        [HttpGet("GetName"), Authorize(Roles = "User")]
+        public ActionResult<string> GetName()
+        {
+            var userName = _userService.parseNameFromToken();
+            return Ok(userName);
+        }
+
+        [HttpGet("GetRole"), Authorize(Roles = "User")]
+        public ActionResult<string[]> GetRole()
+        {
+            var userRoles = _userService.parseRoleFromToken();
+            return Ok(userRoles);
+        }
     }
 }

@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using CosmosTrainingAPi.Models;
 using CosmosTrainingAPi.Services;
+using Microsoft.AspNetCore.Authorization;
 
 namespace CosmosTrainingAPi.Controllers
 {
@@ -29,7 +30,7 @@ namespace CosmosTrainingAPi.Controllers
             return Ok(responce);
         }
 
-        [HttpPatch]
+        [HttpPatch, Authorize(Roles = "User")]
         public async Task<ActionResult<string>> UpdateUserPassword(UpdatePassword user)
         {
             var responce = await _cosmosDBService.UpdateUserPassword(user);

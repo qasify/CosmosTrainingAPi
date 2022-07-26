@@ -26,13 +26,12 @@ builder.Services.AddCors(options =>
 });
 
 
-
-// Add services to the container.
-
 builder.Services.AddControllers();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
+builder.Services.AddScoped<IUserService, UserService>();
+builder.Services.AddHttpContextAccessor();
 builder.Services.AddSingleton<ICosmosDBService>(new CosmosDBService(client,builder.Configuration));
 builder.Services.AddSwaggerGen(options =>
 {

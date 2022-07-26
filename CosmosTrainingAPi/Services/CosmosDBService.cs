@@ -147,6 +147,7 @@ namespace CosmosTrainingAPi.Services
 
         public async Task<string> DeletePost(DeletePost post)
         {
+
             string resp;
             try
             {
@@ -249,8 +250,9 @@ namespace CosmosTrainingAPi.Services
         {
             List<Claim> claims = new List<Claim>
             {
-                new Claim(ClaimTypes.Name, user.Username)
-                //new Claim(ClaimTypes.Role, "Admin")
+                new Claim(ClaimTypes.Name, user.Username),
+                new Claim(ClaimTypes.Role, "Admin"),
+                new Claim(ClaimTypes.Role, "User")
             };
 
             var key = new SymmetricSecurityKey(System.Text.Encoding.UTF8.GetBytes(
