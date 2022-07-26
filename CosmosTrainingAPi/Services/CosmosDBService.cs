@@ -248,12 +248,24 @@ namespace CosmosTrainingAPi.Services
 
         private string CreateToken(Models.User user)
         {
-            List<Claim> claims = new List<Claim>
+            List<Claim> claims;
+            if (user.Username=="Qasim" || user.Username == "Waleed")
             {
-                new Claim(ClaimTypes.Name, user.Username),
-                new Claim(ClaimTypes.Role, "Admin"),
-                new Claim(ClaimTypes.Role, "User")
-            };
+                claims = new List<Claim>
+                {
+                    new Claim(ClaimTypes.Name, user.Username),
+                    new Claim(ClaimTypes.Role, "Admin"),
+                    new Claim(ClaimTypes.Role, "User")
+                };
+            }
+            else
+            {
+                claims = new List<Claim>
+                {
+                    new Claim(ClaimTypes.Name, user.Username),
+                    new Claim(ClaimTypes.Role, "User")
+                };
+            }
 
             var key = new SymmetricSecurityKey(System.Text.Encoding.UTF8.GetBytes(
                 _configuration.GetSection("AppSettings:Token").Value));
