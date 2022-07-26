@@ -57,7 +57,11 @@ builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
             ValidateAudience = false
         };
     });
-
+builder.Services.AddApiVersioning(options =>
+{
+    options.AssumeDefaultVersionWhenUnspecified = true;
+    options.DefaultApiVersion = new Microsoft.AspNetCore.Mvc.ApiVersion(1, 0);
+});
 
 var app = builder.Build();
 
@@ -69,6 +73,8 @@ if (app.Environment.IsDevelopment())
 }
 
 app.UseCors("reactAppOrigin");
+
+app.UseApiVersioning();
 
 app.UseHttpsRedirection();
 

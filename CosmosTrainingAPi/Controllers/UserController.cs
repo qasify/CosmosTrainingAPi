@@ -7,6 +7,7 @@ namespace CosmosTrainingAPi.Controllers
 {
     [Route("api/[controller]/[action]")]
     [ApiController]
+    [ApiVersion("1")]
     public class UserController : ControllerBase
     {
         private ICosmosDBService _cosmosDBService;

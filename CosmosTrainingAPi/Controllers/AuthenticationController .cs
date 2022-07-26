@@ -8,6 +8,7 @@ namespace CosmosTrainingAPi.Controllers
 {
     [Route("api/[controller]/[action]")]
     [ApiController]
+    [ApiVersion("1")]
     public class AuthenticationController : ControllerBase
     {
         private readonly ICosmosDBService _cosmosDBService;
