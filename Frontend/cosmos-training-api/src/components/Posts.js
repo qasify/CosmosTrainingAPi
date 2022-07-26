@@ -17,15 +17,20 @@ export default function Posts(props) {
   const deletePost = (p) => {
     console.log({
       id: p.id,
-      username: localStorage.getItem("user")
+      username: p.username
     })
     axios.delete("https://localhost:7279/api/Post/DeletePost", {
+      headers: {
+        Authorization: `Bearer ${localStorage.getItem("token")}`
+      },
       data: {
         id: p.id,
-        username: localStorage.getItem("user")
+        username: p.username
       }
     }).then(r => {
       alert("Deleted successfully!");
+    }).catch(err => {
+      alert("You can not delete another user's posts.")
     })
   }
 
@@ -41,11 +46,11 @@ export default function Posts(props) {
               {p.text}
             </div>
           </div>
-          {p.username === localStorage.getItem("user") ? <div className='is-align-self-flex-end'>
+          <div className='is-align-self-flex-end'>
             <button className='button has-background-danger has-text-white' onClick={() => {
               deletePost(p);
             }}>Delete</button>
-          </div> : <></>}
+          </div>
         </div>
       </div></tr>)}</div>
   )

@@ -19,7 +19,7 @@ export default function Login() {
             if (r.data !== "User don't exist" && r.data !== "Password incorrect"){
                 localStorage.setItem("session", "true");
                 localStorage.setItem("user", username);
-                localStorage.setItem("token", r.token);
+                localStorage.setItem("token", r.data);
                 navigate("/Home");
             }
             else{
