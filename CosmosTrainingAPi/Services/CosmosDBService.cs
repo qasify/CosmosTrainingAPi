@@ -121,19 +121,32 @@ namespace CosmosTrainingAPi.Services
             try
             {
                 Container container = await getContainer("user");
-                PatchItemRequestOptions options = new()
+                Models.User foundUser = await container.ReadItemAsync<Models.User>(
+                    id: user.Username,
+                    partitionKey: new PartitionKey(user.Username)
+                );
+
+                if (!VerifyPasswordHash(user.OldPassword, foundUser.PasswordHash, foundUser.PasswordSalt))
                 {
-                    FilterPredicate = $"FROM users u WHERE u.assword = \"{user.OldPassword}\""
-                };
+                    responce = "Old password incorrect";
+                    return responce;
+                }
+                CreatePasswordHash(user.NewPassword, out byte[] passwordHash, out byte[] passwordSalt);
+
+/*                PatchItemRequestOptions options = new()
+                {
+                    FilterPredicate = $"FROM users u WHERE u.Password = \"{user.OldPassword}\""
+                };*/
                 List<PatchOperation> operations = new()
                 {
-                    PatchOperation.Replace("/Password", user.NewPassword)
+                    PatchOperation.Replace("/PasswordHash", passwordHash),
+                    PatchOperation.Replace("/PasswordSalt", passwordSalt)
                 };
                 var x = await container.PatchItemAsync<Models.UserDTO>(
                     id: user.Username,
                     partitionKey: new PartitionKey(user.Username),
-                    patchOperations: operations,
-                    requestOptions: options
+                    patchOperations: operations/*,
+                    requestOptions: options*/
                 );
 
                 responce = x.StatusCode.ToString();
