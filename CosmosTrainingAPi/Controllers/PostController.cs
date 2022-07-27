@@ -5,7 +5,7 @@ using Microsoft.AspNetCore.Authorization;
 
 namespace CosmosTrainingAPi.Controllers
 {
-    [Route("api/[controller]/[action]")]
+    [Route("api/v{version:apiVersion}/Post/[action]")]
     [ApiController]
     [ApiVersion("1")]
     public class PostController : ControllerBase

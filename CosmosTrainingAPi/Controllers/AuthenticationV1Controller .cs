@@ -6,15 +6,15 @@ using System.Security.Claims;
 
 namespace CosmosTrainingAPi.Controllers
 {
-    [Route("api/[controller]/[action]")]
+    [Route("api/v{version:apiVersion}/Authentication/[action]")]
     [ApiController]
     [ApiVersion("1")]
-    public class AuthenticationController : ControllerBase
+    public class AuthenticationV1Controller : ControllerBase
     {
         private readonly ICosmosDBService _cosmosDBService;
         private readonly IUserService _userService;
 
-        public AuthenticationController(ICosmosDBService cosmosDBService, IUserService userService)
+        public AuthenticationV1Controller(ICosmosDBService cosmosDBService, IUserService userService)
         {
             _cosmosDBService = cosmosDBService;
             _userService = userService;
@@ -35,14 +35,14 @@ namespace CosmosTrainingAPi.Controllers
         }
 
 
-        [HttpGet("GetName"), Authorize(Roles = "User")]
+        [HttpGet, Authorize(Roles = "User")]
         public ActionResult<string> GetName()
         {
             var userName = _userService.parseNameFromToken();
             return Ok(userName);
         }
 
-        [HttpGet("GetRole"), Authorize(Roles = "User")]
+        [HttpGet, Authorize(Roles = "User")]
         public ActionResult<string[]> GetRole()
         {
             var userRoles = _userService.parseRoleFromToken();
